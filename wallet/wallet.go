@@ -25,14 +25,15 @@ type Wallet struct {
 }
 
 var (
-	DBPath = "data/wallet/wallet.db"
-	sdb    = &Storage{
-		db: sql.New(DBPath),
-	}
+	DBPath     = "data/wallet/wallet.db"
+	sdb        *Storage
 	walletName = "Atri币"
 )
 
 func Init() {
+	sdb = &Storage{
+		db: sql.New(DBPath),
+	}
 	if file.IsNotExist(filepath.Dir(DBPath)) {
 		err := os.MkdirAll(filepath.Dir(DBPath), 0755)
 		if err != nil {
