@@ -3,6 +3,7 @@ package wallet
 
 import (
 	"os"
+	"path/filepath"
 	"strconv"
 	"sync"
 	"time"
@@ -24,15 +25,16 @@ type Wallet struct {
 }
 
 var (
-	sdb = &Storage{
-		db: sql.New("data/wallet/wallet.db"),
+	DBPath = "data/wallet/wallet.db"
+	sdb    = &Storage{
+		db: sql.New(DBPath),
 	}
 	walletName = "Atri币"
 )
 
-func init() {
-	if file.IsNotExist("data/wallet") {
-		err := os.MkdirAll("data/wallet", 0755)
+func Init() {
+	if file.IsNotExist(filepath.Dir(DBPath)) {
+		err := os.MkdirAll(filepath.Dir(DBPath), 0755)
 		if err != nil {
 			panic(err)
 		}
